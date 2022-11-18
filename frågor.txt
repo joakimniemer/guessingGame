@@ -1,0 +1,58 @@
+
+När använder man add respektive commit?
+Add använder vi för att lägga till filer i våran "staging area" innan vi commitar.
+Commit använder vi för att commita(fastställa) en version med nuvarande status och
+"frysa" status på de filer vi har i våran staging area.
+
+Vad är pull respektive push?
+Pull använder vi för att hämta den senaste commiten från ett repository, bra att göra innan
+man pushar saker för att minska merging conflicts.
+Push använder vi för att uppdatera ett repository med de arbete vi har gjort localt.
+
+När använder man log respektive status?
+Log använder vi för att se alla commits som har gjort i ett repository/branch, de visar kommentarer
+och commit-nummer.
+Status används vi för att se nuvarande status i den branch vi står i, den visar tex
+filer som inte är commitade, filer som ligger i staging area eller filer som blivit modifierade.
+
+Hur kan man formulera sig i sina commit-meddelanden?
+"first commit, added .gitignore"
+"added file example.java"
+"updated example.java"
+
+
+
+Jag siktar på VG.
+Dom två sätt att rulla tillbaka koden som jag föredrar är revert och reset --hard.
+
+Revert anser jag vara den man vill använda oftast eftersom den inte tar bort någon historik
+utan enbart lägger till. När man gör en revert så väljer man vilken commit man vill backa till, 
+och då skapas en ny commit längst upp (i HEAD) men den status som commiten man valde att backa till
+hade. 
+Exempel: git revert HEAD~1
+Detta kommando skapar en ny commit med statusen från de föregående commiten. 
+ 
+
+
+Reset --hard behöver man vara lite mer försiktig med eftersom den ta bort historik (commits).
+Den bör därför enbart användas när man är helt säker på vilken commit man vill backa till samt
+vet att data som tas bort inte kommer behövas igen längre fram.
+Nedan visar jag ett exempel där jag använder "git reset --hard 8ccfed0" för att backa till
+föregående commit. 687d11e som är HEAD när kommandot görs försvinner därför och går inte att
+få tillbaka.
+
+joakim@JNXPS:~/Documents/Skolan/DigitalaVerktyg/gitWorkshop5$ git log --oneline
+687d11e (HEAD -> master) Revert "updateing file1.txt some more"
+8ccfed0 updateing file1.txt some more
+4dd5855 Revert "make a mistake on purpose"
+9803b9e make a mistake on purpose
+72fb01c second commit
+eccf3a1 first commit
+joakim@JNXPS:~/Documents/Skolan/DigitalaVerktyg/gitWorkshop5$ git reset --hard 8ccfed0
+HEAD is now at 8ccfed0 updateing file1.txt some more
+joakim@JNXPS:~/Documents/Skolan/DigitalaVerktyg/gitWorkshop5$ git log --oneline
+8ccfed0 (HEAD -> master) updateing file1.txt some more
+4dd5855 Revert "make a mistake on purpose"
+9803b9e make a mistake on purpose
+72fb01c second commit
+eccf3a1 first commit
